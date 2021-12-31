@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kisslog-backend
+  namespace: kisslog
+  labels:
+    app: kisslog-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kisslog-backend
+  template:
+    metadata:
+      labels:
+        app: kisslog-backend
+    spec:
+      volumes:
+        - name: appsettings
+          configMap:
+            name: appsettings-kisslog-backend
+        - name: kisslog
+          configMap:
+            name: kisslog-backend
+      containers:
+      - name: kisslog-backend
+        image: zimbres/kisslog.backend:3.0
+        volumeMounts:
+            - name: appsettings
+              mountPath: /app/appsettings.json
+              subPath: appsettings.json
+            - name: kisslog
+              mountPath: /app/Configuration/KissLog.json
+              subPath: KissLog.json
+        ports:
+        - containerPort: 80

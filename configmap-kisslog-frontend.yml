@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kisslog-frontend
+  namespace: kisslog
+data:
+  KissLog.json: |-
+    {
+      "ApplicationName": "KissLog",
+      "AppVersion": "20211227.1",
+      "InternalLogs.DirectoryPath": "Logs",
+      "InternalLogs.MinimumStatusCode": "400",
+      "KissLogBackend.BasicAuth.Password": "_This_Password_Should_Be_Replaced_",
+      "KissLog.License": "",
+      "KissLogBackendUrl": "http://kisslog-backend",
+      "KissLogFrontendUrl": "http://kisslog-frontend",
+      "MediaDirectoryPath": "",
+      "Database": {
+        "Provider": "MySql",
+        "KissLogDbContext": "server=kisslog-mariadb;port=3306;database=KissLog_Frontend;uid=root;password=pass;Charset=utf8;",
+        "@Provider_SqlServer_Example": "Data Source=192.168.16.11;Initial Catalog=KissLog_Frontend;UID={_username_};PWD={_password_};",
+        "@Provider_MySql_Example": "server=localhost;port=3306;database=KissLog_Frontend;uid={_username_};password={_password_};Charset=utf8;"
+      },
+      "Authorization": {
+        "DefaultEmailDomain": "kisslog.net",
+        "HS256Secret": "_ChangeThis_4H3Q935LLRG5TEPNGUYOQPRS0SXLT3ML_",
+        "SessionCookie": {
+          "IsPersistentFixedValue": null,
+          "ExpireInMinutes": 10080
+        }
+      },
+      "Smtp": {
+        "Host": "smtp.sendgrid.net",
+        "Port": "587",
+        "UserName": "",
+        "Password": "",
+        "EnableSsl": false,
+        "From": {
+          "Address": "support@kisslog.net",
+          "DisplayName": "KissLog"
+        }
+      },
+      "UserInterface": {
+        "ForceAvatarSrc": null,
+        "CreatePermalinkWithAnonymousAccess": {
+          "IsEnabled": true,
+          "ValidForSeconds": 7200
+        },
+        "Applications": {
+          "LoadHowMany": "6"
+        },
+        "Dashboard": {
+          "ShowReferringSites": true
+        }
+      }
+    }
