@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kisslog-backend
+  namespace: kisslog
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`kisslog-backend.domain.local`)
+    kind: Rule
+    services:
+    - name: kisslog-backend
+      port: 80
