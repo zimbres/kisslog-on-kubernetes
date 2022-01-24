@@ -13,8 +13,15 @@ spec:
       labels:
         app: mongodb
     spec:
+      volumes:
+        - name: mongodb
+          persistentVolumeClaim:
+            claimName: mongodb
       containers:
       - name: mongodb
         image: mongo
         ports:
           - containerPort: 27017
+        volumeMounts:
+        - mountPath: "/data/db"
+          name: mongodb

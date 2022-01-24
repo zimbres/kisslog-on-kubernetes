@@ -24,7 +24,7 @@ spec:
             name: kisslog-frontend
       containers:
       - name: kisslog-frontend
-        image: zimbres/kisslog.frontend:3.0
+        image: zimbres/kisslog.frontend:latest
         volumeMounts:
             - name: appsettings
               mountPath: /app/appsettings.json

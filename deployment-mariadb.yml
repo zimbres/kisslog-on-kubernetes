@@ -13,11 +13,18 @@ spec:
       labels:
         app: mariadb
     spec:
+      volumes:
+        - name: mariadb
+          persistentVolumeClaim:
+            claimName: mariadb
       containers:
       - name: mariadb
         image: mariadb
         ports:
           - containerPort: 3306
+        volumeMounts:
+        - mountPath: "/var/lib/mysql"
+          name: mariadb
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: "pass"

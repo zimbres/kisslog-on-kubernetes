@@ -1,12 +1,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+namespace: kisslog
+
 resources:
 - namespace.yml
 - configmap-appsettings-kisslog-backend.yml
 - configmap-appsettings-kisslog-frontend.yml
 - configmap-kisslog-backend.yml
 - configmap-kisslog-frontend.yml
+- pvc-mariadb.yml
+- pvc-mongodb.yml
 - deployment-backend.yml
 - deployment-frontend.yml
 - deployment-mariadb.yml
