@@ -6,10 +6,7 @@ metadata:
 data:
   KissLog.json: |-
     {
-      "IsReadOnlyMode": false,
-      "InternalLogs.DirectoryPath": "Logs",
-      "InternalLogs.MinimumStatusCode": "400",
-      "KissLogBackend.BasicAuth.Password": "_This_Password_Should_Be_Replaced_",
+      "KissLogBackend.BasicAuth.Password": "_this_password_should_be_replaced_",
       "KissLogBackendUrl": "http://kisslog-backend",
       "KissLogFrontendUrl": "http://kisslog-frontend",
       "Database": {
@@ -17,79 +14,80 @@ data:
         "MongoDb": {
           "ConnectionString": "mongodb://kisslog-mongodb:27017",
           "DatabaseName": "KissLogDev"
-        },
-        "AzureCosmosDb": {
-          "AccountEndpoint": "https://documents.azure.com:443/",
-          "AccountKey": "AccountKey",
-          "DatabaseName": "KissLog"
         }
+      },
+      "Files": {
+        "Provider": "MongoDb",
+        "MaximumFileSizeInBytes": 2097152
       },
       "CreateRequestLog": {
         "SaveInputStreamAsFileIfLengthGte": 5000,
-        "TokenizeUrl": {
-          "ParameterCharacters": [
-            "%",
-            " ",
-            ":",
-            ",",
-            ";",
-            "+",
-            "%",
-            "&",
-            "#",
-            "(",
-            ")",
-            "@",
-            "=",
-            "<",
-            ">",
-            "{",
-            "}",
-            "\"",
-            "'"
+        "Ignore": {
+          "UrlPathPatterns": [
+            "(?si).js$",
+            "(?si).css$",
+            "(?si).map$",
+            "(?si).bmp$",
+            "(?si).dib$",
+            "(?si).gif$",
+            "(?si).svg$",
+            "(?si).jpe$",
+            "(?si).jpeg$",
+            "(?si).jpg$",
+            "(?si).png$",
+            "(?si).pnz$",
+            "(?si).ico$",
+            "(?si).txt$",
+            "(?si).xml$",
+            "(?si).php$",
+            "(?si).ttf"
           ],
-          "ParameterPatterns": [
-            "(?si)(?:\\D*\\d){3}"
-          ],
-          "SkipPatterns": [
-            "(?si)^/[0-9]+$"
-          ]
-        },
-        "Throttle": {
-          "Rules": [
-            {
-              "IsEnabled": false,
-              "Limits": [
-                {
-                  "RequestLimit": 1,
-                  "IntervalInSeconds": 5,
-                  "LessThanStatusCode": 600
-                }
-              ]
-            }
+          "ResponseContentTypePatterns": [
+            "(?si)^application/javascript",
+            "(?si)^application/ecmascript",
+            "(?si)^application/x-ecmascript",
+            "(?si)^application/x-javascript",
+            "(?si)^text/javascript",
+            "(?si)^text/ecmascript",
+            "(?si)^text/css",
+            "(?si)^image/",
+            "(?si)^audio/",
+            "(?si)^video/",
+            "(?si)^application/ogg",
+            "(?si)^application/font-",
+            "(?si)^application/x-font-",
+            "(?si)^application/vnd-"
           ]
         },
         "Obfuscate": {
           "IsEnabled": true,
-          "Placeholder": "***obfuscated***",
+          "ObfuscateInputStream": false,
+          "Placeholder": "<obfuscated>",
           "Patterns": [
             "(?si)pass"
           ]
         },
         "Truncate": {
-          "Keywords": {
-            "Limit": 6,
-            "KeywordMinLength": 3,
-            "KeywordMaxLength": 50
-          },
-          "Exceptions": {
-            "Limit": 6,
-            "ExceptionTypeMaxLength": 120,
-            "ExceptionMessageMaxLength": 500
+          "Files": {
+            "Limit": 6
           },
           "LogMessages": {
             "Limit": 100,
             "MessageMaxLength": 10000
+          },
+          "Exceptions": {
+            "Limit": 6,
+            "ExceptionMessageMaxLength": 500
+          },
+          "CustomProperties": {
+            "Limit": 10,
+            "KeyMaxLength": 20,
+            "ValueMaxLength": 100
+          },
+          "Keywords": {
+            "Limit": 6,
+            "KeywordMinLength": 5,
+            "KeywordMaxLength": 30
           },
           "RequestHeaders": {
             "Limit": 20,
@@ -126,153 +124,109 @@ data:
             "KeyMaxLength": 100,
             "ValueMaxLength": 1000
           }
-        }
-      },
-      "UploadRequestLogFiles": {
-        "IsEnabled": "True",
-        "Provider": "MongoDbGridFS",
-        "MaximumFileSizeInBytes": 2097152,
-        "Throttle": {
-          "IsEnabled": true,
-          "RequestLimit": 1,
-          "IntervalInSeconds": 20
         },
-        "AzureBlobStorage": {
-          "ConnectionString": "DefaultEndpointsProtocol=https;AccountName=myfilesstorage;AccountKey=Key;EndpointSuffix=core.windows.net"
+        "Throttle": {
+          "Rules": [
+            {
+              "IsEnabled": false,
+              "Limits": [
+                {
+                  "StatusCodeLt": 600,
+                  "RequestLimit": 1,
+                  "IntervalInSeconds": 1
+                }
+              ]
+            }
+          ]
         }
       },
-      "Alerts": {
-        "IsEnabled": true,
-        "CacheIntervalInSeconds": 86400,
-        "Queue": {
-          "TriggerIntervalInSeconds": 30
-        }
-      },
-      "Exceptions": {
-        "TreatErrorLogsAsExceptions": false,
-        "ErrorLogExceptionType": "LogMessageException"
-      },
-      "Endpoints": {
-        "IncrementErrorCountCondition": "HttpStatusCodeGte400"
-      },
-      "RequestLogs": {
-        "Search": {
-          "Engine": "MongoDbTextSearch",
-          "IndexInputStream": true,
-          "KeyRange": [
-            1,
-            100
+      "UrlTokenization": {
+        "IgnoreTokenizationUrlPathPatterns": [
+          "(?si)^/[0-9]+$"
+        ],
+        "PathComponentTokenization": {
+          "Characters": [
+            "%",
+            " ",
+            ":",
+            ",",
+            ";",
+            "+",
+            "%",
+            "&",
+            "#",
+            "(",
+            ")",
+            "@",
+            "=",
+            "<",
+            ">",
+            "{",
+            "}",
+            "\"",
+            "'"
           ],
-          "ValueRange": [
-            1,
-            100
+          "Patterns": [
+            "(?si)(?:\\D*\\d){3}"
           ]
         }
       },
       "TimeToLive": {
-        "ApplicationAlert": {
-          "Minutes": 43200
+        "AlertDefinitionInvocation": {
+          "Days": 30
         },
-        "ApplicationAlertTriggerEvent": {
-          "Minutes": 43200
+        "ApplicationAlert": {
+          "Days": 7
         },
         "ApplicationChartData": {
-          "Minutes": 43200
+          "Days": 7
         },
-        "ApplicationExceptionInterval": {
-          "Minutes": 43200
+        "ApplicationData": {
+          "Days": 7
+        },
+        "ApplicationEndpoint": {
+          "Days": 7
         },
         "ApplicationException": {
-          "Minutes": 43200
+          "Days": 7
         },
-        "ApplicationGeneralData": {
-          "Minutes": 43200
-        },
-        "ApplicationMetadata": {
-          "Minutes": 43200
-        },
-        "ApplicationUrl": {
-          "Minutes": 43200
-        },
-        "ApplicationUsageInterval": {
-          "Minutes": 259200
+        "ApplicationUsage": {
+          "Days": 7
         },
         "ApplicationUser": {
-          "Minutes": 43200
+          "Days": 7
+        },
+        "HttpRefererDestination": {
+          "Days": 1
+        },
+        "HttpRefererSource": {
+          "Days": 7
         },
         "RequestLog": [
           {
-            "LessThanStatusCode": 400,
-            "Minutes": 10800
+            "StatusCodeLt": 400,
+            "Days": 2
           },
           {
-            "LessThanStatusCode": 500,
-            "Minutes": 43200
+            "StatusCodeLt": 500,
+            "Days": 4
           },
           {
-            "LessThanStatusCode": 600,
-            "Minutes": 43200
+            "StatusCodeLt": 600,
+            "Days": 6
           }
-        ],
-        "UrlException": {
-          "Minutes": 43200
-        }
-      },
-      "Jobs": {
-        "DeleteApplicationData": {
-          "TriggerIntervalInMinutes": 720
-        }
-      },
-      "RepositoryQueues": {
-        "ApplicationChartData": {
-          "IsEnabled": true,
-          "TriggerIntervalInSeconds": 10,
-          "Take": 50
-        },
-        "ApplicationExceptionInterval": {
-          "IsEnabled": true,
-          "TriggerIntervalInSeconds": 10,
-          "Take": 50
-        },
-        "ApplicationGeneralData": {
-          "IsEnabled": true,
-          "TriggerIntervalInSeconds": 10,
-          "Take": 50
-        },
-        "ApplicationMetadata": {
-          "IsEnabled": true,
-          "TriggerIntervalInSeconds": 10,
-          "Take": 50
-        },
-        "ApplicationUrl": {
-          "IsEnabled": true,
-          "TriggerIntervalInSeconds": 10,
-          "Take": 50,
-          "MaximumSize": 500
-        },
-        "ApplicationUsageInterval": {
-          "IsEnabled": true,
-          "TriggerIntervalInSeconds": 10,
-          "Take": 50
-        },
-        "ApplicationUser": {
-          "IsEnabled": true,
-          "TriggerIntervalInSeconds": 10,
-          "Take": 50
-        }
-      },
-      "SaveRequestLogsOnLocalStorage": {
-        "IsEnabled": false,
-        "Provider": "NLog",
-        "Fields": [
-          "LogMessages.LogLevel",
-          "LogMessages.Message",
-          "MachineName",
-          "WebRequest.HttpMethod",
-          "WebRequest.RemoteAddress",
-          "WebRequest.Url.AbsoluteUri",
-          "WebRequest.RequestProperties.FormData",
-          "WebRequest.RequestProperties.InputStream"
         ]
+      },
+      "ApplicationSettings": {
+        "DeleteApplicationDataByExpiryDate": {
+          "TriggerIntervalInMinutes": 180
+        },
+        "ProcessQueues": {
+          "TriggerIntervalInSeconds": 10,
+          "Take": 50
+        },
+        "ProcessAlerts": {
+          "TriggerIntervalInSeconds": 10
+        }
       }
     }

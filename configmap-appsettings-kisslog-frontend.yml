@@ -8,14 +8,12 @@ data:
     {
       "Logging": {
         "LogLevel": {
-          "Default": "Warning",
+          "Default": "Information",
           "Microsoft": "Warning",
           "Microsoft.Hosting.Lifetime": "Warning"
         }
       },
       "ApplicationType": "OnPremises",
-      "ConfigurationFilePath": "Configuration/KissLog.json",
-      "KissLogCloud": "",
       "AllowedHosts": "*",
       "Kestrel": {
         "EndPoints": {

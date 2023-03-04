@@ -24,7 +24,7 @@ spec:
             name: kisslog-backend
       containers:
       - name: kisslog-backend
-        image: zimbres/kisslog.backend:latest
+        image: catalingavan/kisslog.backend:4.0.1
         volumeMounts:
             - name: appsettings
               mountPath: /app/appsettings.json

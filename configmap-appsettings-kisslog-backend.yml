@@ -6,20 +6,19 @@ metadata:
 data:
   appsettings.json: |-
     {
-        "Logging": {
-            "LogLevel": {
-                "Default": "Warning",
-                "Microsoft": "Warning",
-                "Microsoft.Hosting.Lifetime": "Warning"
-            }
-        },
-        "ConfigurationFilePath": "Configuration/KissLog.json",
-        "AllowedHosts": "*",
-        "Kestrel": {
-            "EndPoints": {
-                "Http": {
-                    "Url": "http://0.0.0.0:80"
-                }
-            }
+      "Logging": {
+        "LogLevel": {
+          "Default": "Information",
+          "Microsoft": "Warning",
+          "Microsoft.Hosting.Lifetime": "Warning"
         }
+      },
+      "AllowedHosts": "*",
+      "Kestrel": {
+        "EndPoints": {
+          "Http": {
+            "Url": "http://0.0.0.0:80"
+          }
+        }
+      }
     }
